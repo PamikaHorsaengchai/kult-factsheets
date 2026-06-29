@@ -277,7 +277,99 @@
   </div>
 </div>
 
-<!-- ⑤ DATING -->
+<!-- ⑤ PACKAGING & LABEL COPY -->
+<div class="section-card" style="border-color:#a5b4fc">
+  <div class="section-head open" onclick="toggleSection(this)">
+    <div class="section-icon" style="background:#eef2ff">📋</div>
+    <div class="section-meta">
+      <div class="section-name">Packaging &amp; label copy <span class="filled-badge">Pre-filled</span></div>
+      <div class="section-desc">Front label · ingredient highlight panels · back-of-pack copy</div>
+    </div>
+    <span class="section-badge" style="background:#eef2ff;color:#4338ca">Label Copy</span>
+    <svg class="section-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body open" style="background:#f8f9ff">
+
+    <!-- Front label hero -->
+    <div class="sub">Front label hero copy</div>
+    <div class="fg c2" style="margin-bottom:12px">
+      <div class="field"><label>Front label (EN)</label><textarea id="pkgFrontEN" rows="3" oninput="sync()"></textarea></div>
+      <div class="field"><label>Front label (TH)</label><textarea id="pkgFrontTH" rows="3" oninput="sync()" style="font-size:13px"></textarea></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="sub" style="margin-bottom:12px">Ingredient highlight panels (for box / carton)</div>
+
+    <!-- BiomePDRN panel -->
+    <div style="background:white;border:1.5px solid #a5b4fc;border-radius:8px;padding:13px 14px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span style="font-size:16px">🧬</span>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#3730a3">BiomePDRN™ Highlight Panel</div>
+          <div style="font-size:11px;color:#6b7280">Key active #1 — front/back panel</div>
+        </div>
+      </div>
+      <div class="fg c2">
+        <div class="field"><label>Panel heading (EN)</label><input id="pkgPanel1HeadEN" oninput="sync()"></div>
+        <div class="field"><label>Panel heading (TH)</label><input id="pkgPanel1HeadTH" oninput="sync()" style="font-size:13px"></div>
+        <div class="field s2"><label>Description (EN)</label><textarea id="pkgPanel1DescEN" rows="3" oninput="sync()"></textarea></div>
+        <div class="field s2"><label>Description (TH)</label><textarea id="pkgPanel1DescTH" rows="4" oninput="sync()" style="font-size:13px"></textarea></div>
+        <div class="field"><label>Claim badge / callout</label><input id="pkgPanel1Badge" placeholder="e.g. 1% BiomePDRN™ | Vegan-Friendly" oninput="sync()"></div>
+        <div class="field"><label>Disclaimer</label><input id="pkgPanel1Disc" oninput="sync()" style="font-size:12px"></div>
+      </div>
+    </div>
+
+    <!-- AZELOGLICINA panel -->
+    <div style="background:white;border:1.5px solid #c4b5fd;border-radius:8px;padding:13px 14px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span style="font-size:16px">✨</span>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#6d28d9">AZELOGLICINA® Highlight Panel</div>
+          <div style="font-size:11px;color:#6b7280">Key active #2 — brightening hero</div>
+        </div>
+      </div>
+      <div class="fg c2">
+        <div class="field"><label>Panel heading (EN)</label><input id="pkgPanel2HeadEN" oninput="sync()"></div>
+        <div class="field"><label>Panel heading (TH)</label><input id="pkgPanel2HeadTH" oninput="sync()" style="font-size:13px"></div>
+        <div class="field s2"><label>Description (EN)</label><textarea id="pkgPanel2DescEN" rows="2" oninput="sync()"></textarea></div>
+        <div class="field s2"><label>Description (TH)</label><textarea id="pkgPanel2DescTH" rows="3" oninput="sync()" style="font-size:13px"></textarea></div>
+        <div class="field"><label>Claim badge / callout</label><input id="pkgPanel2Badge" placeholder="e.g. AZELOGLICINA® | Azelaic Acid Derivative" oninput="sync()"></div>
+      </div>
+    </div>
+
+    <!-- CLEANONE panel -->
+    <div style="background:white;border:1.5px solid #6ee7b7;border-radius:8px;padding:13px 14px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span style="font-size:16px">🌿</span>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#065f46">CLEANONE Complex™ Highlight Panel</div>
+          <div style="font-size:11px;color:#6b7280">Key complex #3 — soothing / calming</div>
+        </div>
+      </div>
+      <div class="fg c2">
+        <div class="field"><label>Panel heading (EN)</label><input id="pkgPanel3HeadEN" oninput="sync()"></div>
+        <div class="field"><label>Panel heading (TH)</label><input id="pkgPanel3HeadTH" oninput="sync()" style="font-size:13px"></div>
+        <div class="field s2"><label>Description (EN)</label><textarea id="pkgPanel3DescEN" rows="2" oninput="sync()"></textarea></div>
+        <div class="field s2"><label>Description (TH)</label><textarea id="pkgPanel3DescTH" rows="3" oninput="sync()" style="font-size:13px"></textarea></div>
+        <div class="field"><label>Claim badge / callout</label><input id="pkgPanel3Badge" placeholder="e.g. CLEANONE Complex by COSMAX" oninput="sync()"></div>
+      </div>
+    </div>
+
+    <!-- Custom panel slot -->
+    <div style="background:#fafafa;border:1.5px dashed #d1d5db;border-radius:8px;padding:13px 14px;margin-bottom:4px">
+      <div style="font-size:11.5px;font-weight:600;color:#9ca3af;margin-bottom:8px">+ Additional ingredient panel (optional)</div>
+      <div class="fg c2">
+        <div class="field"><label>Panel heading (EN)</label><input id="pkgPanel4HeadEN" placeholder="e.g. Tranexamic Acid" oninput="sync()"></div>
+        <div class="field"><label>Panel heading (TH)</label><input id="pkgPanel4HeadTH" oninput="sync()" style="font-size:13px"></div>
+        <div class="field s2"><label>Description (EN)</label><textarea id="pkgPanel4DescEN" rows="2" oninput="sync()"></textarea></div>
+        <div class="field s2"><label>Description (TH)</label><textarea id="pkgPanel4DescTH" rows="2" oninput="sync()" style="font-size:13px"></textarea></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ⑥ DATING -->
 <div class="section-card">
   <div class="section-head" onclick="toggleSection(this)">
     <div class="section-icon ic-amber">📅</div>
@@ -574,6 +666,28 @@ window.addEventListener('DOMContentLoaded',()=>{
     mktSocialEN:'One ampoule. 12 actives. Instant results. 💉✨ KULT PDRN Instant Repair Shot fires COSMAX BiomePDRN + Azeloglicina directly into your skin — brightening, firming, and hydrating in one precision dose. #KULTSkinRitual #PDRNShot #AmpouleSerum',
     mktSocialTH:'หนึ่งแอมพูล สารออกฤทธิ์ 12 ชนิด ผลลัพธ์ทันที 💉✨ KULT PDRN Instant Repair Shot ส่งพลัง BiomePDRN + Azeloglicina ตรงสู่ผิวคุณ กระจ่างใส กระชับ ชุ่มชื้น #KULTSkinRitual #PDRNShot',
     mktEcomEN:'Single-use PDRN serum ampoule. 12 actives: 5% Niacinamide, BiomePDRN, 3% Tranexamic Acid, 0.04% Adenosine. Alcohol-free, SLS-free, silicone-free.',
+    // Packaging & Label Copy
+    pkgFrontEN:'1% BiomePDRN™\nBiotechnology-derived PDRN. Vegan-friendly formula with no animal-derived ingredients.* Helps restore the appearance of fatigued skin, soothes skin, and strengthens the look of the skin\'s natural barrier.\n*Referenced from raw material certification.',
+    pkgFrontTH:'1% BiomePDRN™\nPDRN จากเทคโนโลยีชีวภาพ สูตร vegan-friendly ไม่มีส่วนผสมที่ได้จากสัตว์* ช่วยฟื้นบำรุงผิวที่ดูอ่อนล้า ปลอบประโลมผิว และเสริมให้เกราะป้องกันผิวดูแข็งแรงขึ้น\n*อ้างอิงจากเอกสารรับรองวัตถุดิบ',
+    // BiomePDRN panel
+    pkgPanel1HeadEN:'Next-Generation BiomePDRN™',
+    pkgPanel1HeadTH:'Next-Generation BiomePDRN™: นวัตกรรม PDRN ยุคใหม่จากเทคโนโลยีชีวภาพ',
+    pkgPanel1DescEN:'A vegan-friendly alternative to traditional salmon-derived PDRN. Biotechnology-derived from Schizosaccharomyces yeast fermentation in a controlled lab process. Helps restore the appearance of fatigued skin, soothes stressed-looking skin, and strengthens the look of the skin\'s natural barrier — for a more balanced, resilient appearance.',
+    pkgPanel1DescTH:'เป็น vegan-friendly alternative to traditional salmon-derived PDRN โดยได้จากจุลินทรีย์ยีสต์ Schizosaccharomyces ผ่านกระบวนการหมักในห้องแล็บ ช่วยฟื้นบำรุงผิวที่ดูอ่อนล้า ปลอบประโลมผิวจากความเครียด และเสริมให้เกราะป้องกันผิวดูแข็งแรงขึ้น เพื่อผิวที่ดูสมดุลและยืดหยุ่น',
+    pkgPanel1Badge:'1% BiomePDRN™ | Vegan-Friendly | Biotechnology-Derived',
+    pkgPanel1Disc:'*อ้างอิงจากเอกสารรับรองวัตถุดิบ / *Referenced from raw material certification.',
+    // AZELOGLICINA panel
+    pkgPanel2HeadEN:'AZELOGLICINA®',
+    pkgPanel2HeadTH:'AZELOGLICINA®',
+    pkgPanel2DescEN:'An Azelaic Acid derivative that helps brighten the appearance of skin and visibly reduce the look of dark spots and post-acne marks.',
+    pkgPanel2DescTH:'อนุพันธ์ของกรดอะเซลาอิก (Azelaic Acid) ช่วยให้ผิวดูกระจ่างใสขึ้น พร้อมช่วยลดเลือนรอยดำจากสิว',
+    pkgPanel2Badge:'AZELOGLICINA® | Azelaic Acid Derivative | By COSMAX',
+    // CLEANONE panel
+    pkgPanel3HeadEN:'CLEANONE Complex by COSMAX',
+    pkgPanel3HeadTH:'CLEANONE Complex by COSMAX',
+    pkgPanel3DescEN:'A proprietary COSMAX soothing complex combining Cynanchum Atratum Extract (Korean herb) and Althaea Rosea Flower Extract. Helps calm the appearance of skin and reduce the likelihood of irritation.',
+    pkgPanel3DescTH:'ส่วนผสมจาก Cynanchum Atratum Extract สมุนไพรเกาหลี และ Althaea Rosea Flower Extract ช่วยปลอบประโลมผิว และลดโอกาสเกิดการระคายเคือง',
+    pkgPanel3Badge:'CLEANONE Complex™ | COSMAX Exclusive | Botanical Soothing',
     mktNotes:'Adenosine 0.04% — may be claimed "ลดริ้วรอย" (anti-wrinkle) per Thai FDA. Tranexamic Acid — use "ผิวดูกระจ่างใส" (brightening) NOT "ทำให้ขาว" (whitening). Azeloglicina — include in INCI only; no standalone Thai FDA registration. No therapeutic claims.',
     // Manufacturer
     mfrName:'COSMAX (THAILAND) CO., LTD.',
