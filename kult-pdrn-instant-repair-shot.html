@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KULT — PDRN Instant Repair Shot · Factsheet</title>
+<style>
+  :root{--brand:#1a3a5c;--accent:#0d5c8f;--accent-light:#e8f4fd;--thai:#a51c30;--thai-light:#fdecea;--danger:#dc2626;--text:#111827;--text-muted:#6b7280;--border:#e5e7eb;--bg:#f5f7fa;--white:#fff;--radius:10px;--radius-sm:6px;--shadow:0 1px 3px rgba(0,0,0,.07)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+  .topbar{background:#2d1a5c;color:white;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.22)}
+  .topbar-left{display:flex;align-items:center;gap:10px}
+  .topbar-logo{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+  .topbar-title{font-size:15px;font-weight:700}.topbar-sub{font-size:11px;opacity:.65;margin-top:1px}
+  .topbar-badge{background:var(--thai);color:white;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+  .topbar-actions{display:flex;gap:8px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .15s}
+  .btn-ghost{background:rgba(255,255,255,.1);color:white}.btn-ghost:hover{background:rgba(255,255,255,.2)}
+  .btn-primary{background:#e63946;color:white}.btn-primary:hover{background:#c1121f}
+  .btn svg{width:15px;height:15px;flex-shrink:0}
+  .layout{display:grid;grid-template-columns:1fr 400px;max-width:1280px;margin:0 auto;min-height:calc(100vh - 56px)}
+  .form-side{padding:1.5rem 2rem 4rem;overflow-y:auto}
+  .notice{background:#f5f3ff;border:1px solid #c4b5fd;border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:1.25rem;font-size:12.5px;color:#5b21b6;line-height:1.6}
+  .notice strong{font-weight:700}
+  .section-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.875rem;overflow:hidden;box-shadow:var(--shadow)}
+  .section-card.thai-card{border-color:#fca5a5}
+  .section-head{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none;border-bottom:1px solid transparent}
+  .section-head.open{border-bottom-color:var(--border)}
+  .thai-card .section-head.open{border-bottom-color:#fca5a5}
+  .section-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+  .ic-purple{background:#ede9ff}.ic-teal{background:#d1fae5}.ic-amber{background:#fef3c7}.ic-blue{background:#dbeafe}.ic-red{background:#fee2e2}.ic-gray{background:#f3f4f6}.ic-green{background:#dcfce7}.ic-thai{background:#fdecea}
+  .section-meta{flex:1}.section-name{font-size:13.5px;font-weight:600}.section-desc{font-size:11.5px;color:var(--text-muted);margin-top:1px}
+  .section-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;white-space:nowrap}
+  .badge-mandatory{background:#fee2e2;color:#b91c1c}.badge-thai{background:var(--thai-light);color:var(--thai)}.badge-optional{background:#f3f4f6;color:#6b7280}
+  .section-chevron{width:18px;height:18px;color:var(--text-muted);transition:transform .2s;flex-shrink:0}
+  .section-chevron.open{transform:rotate(180deg)}
+  .section-body{padding:16px;display:none}.section-body.open{display:block}
+  .thai-body{background:#fffafa}
+  .fg{display:grid;gap:11px}.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1fr 1fr 1fr}.c1{grid-template-columns:1fr}.s2{grid-column:span 2}
+  .field{display:flex;flex-direction:column;gap:4px}
+  .field label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px}
+  .field label.tl{color:var(--thai)}
+  .req{color:var(--danger)}
+  .field input,.field select,.field textarea{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13px;color:var(--text);background:white;font-family:inherit;transition:border-color .15s}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(13,92,143,.1)}
+  .thai-field input,.thai-field select,.thai-field textarea{border-color:#fca5a5}
+  .thai-field input:focus,.thai-field select:focus,.thai-field textarea:focus{border-color:var(--thai);box-shadow:0 0 0 3px rgba(165,28,48,.1)}
+  .field textarea{resize:vertical;min-height:70px;line-height:1.6}
+  .field .hint{font-size:11px;color:var(--text-muted);line-height:1.4}
+  .field .hint.law{color:#991b1b;background:var(--thai-light);padding:4px 8px;border-radius:4px;border-left:3px solid var(--thai)}
+  .field .hint.tip{color:#78350f;background:#fef3c7;padding:4px 8px;border-radius:4px;border-left:3px solid #f59e0b}
+  .field .hint.info{color:#1e40af;background:#eff6ff;padding:4px 8px;border-radius:4px;border-left:3px solid #3b82f6}
+  .divider{height:1px;background:var(--border);margin:12px 0}
+  .sub{font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px}
+  .filled-badge{display:inline-block;font-size:10px;background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:4px;margin-left:6px;font-weight:600}
+  .cbgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .chip{display:flex;align-items:center;gap:6px;padding:7px 9px;border:1.5px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:12px;font-weight:500;user-select:none;background:white;transition:all .15s}
+  .chip:hover{border-color:var(--accent);background:var(--accent-light)}
+  .chip.checked{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+  .chip input[type=checkbox]{display:none}
+  .chip-dot{width:13px;height:13px;border:1.5px solid currentColor;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px}
+  .pao-row{display:flex;align-items:center;gap:8px}
+  .pao-row input{width:75px}
+  .pao-row span{font-size:13px;color:var(--text-muted)}
+  /* actives table */
+  .actives-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+  .actives-table th{background:#f3f4f6;text-align:left;padding:5px 8px;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--border)}
+  .actives-table td{padding:5px 8px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+  .actives-table tr:last-child td{border-bottom:none}
+  .actives-table .pct{font-weight:600;color:var(--accent)}
+  .actives-table .prop{font-size:10px;background:#ede9ff;color:#6d28d9;padding:1px 5px;border-radius:3px;margin-left:4px}
+  /* Preview */
+  .preview-side{background:#2a243b;border-left:1px solid #3d3458;padding:1.25rem 1rem;display:flex;flex-direction:column;align-items:center;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+  .preview-label{font-size:11px;font-weight:600;color:#9984d4;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;text-align:center}
+  .a4{background:white;width:100%;max-width:370px;font-family:Arial,Helvetica,sans-serif;font-size:8.5px;line-height:1.4;color:#111;box-shadow:0 4px 24px rgba(0,0,0,.4);border-radius:2px}
+  .a4h{background:#2d1a5c;color:white;padding:12px 14px;display:flex;justify-content:space-between;align-items:flex-start}
+  .a4hb{font-size:9px;opacity:.7;margin-bottom:2px}
+  .a4hp{font-size:12.5px;font-weight:700}
+  .a4ht{font-size:7.5px;opacity:.65;margin-top:2px}
+  .a4hr{text-align:right}
+  .a4tag{background:rgba(255,255,255,.15);padding:2px 7px;border-radius:3px;font-size:7px;text-transform:uppercase;letter-spacing:.5px;display:inline-block;margin-bottom:2px}
+  .a4thai{background:#a51c30;padding:2px 7px;border-radius:3px;font-size:7px;display:inline-block}
+  .a4body{padding:10px 13px}
+  .a4notif{background:#fff0f0;border:.5px solid #fca5a5;border-radius:3px;padding:5px 8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .a4notif-badge{display:inline-block;background:#fff0f0;border:.5px solid #fca5a5;color:#a51c30;font-size:7.5px;font-weight:700;padding:2px 7px;border-radius:3px;margin-top:3px}
+  .a4r2{display:grid;grid-template-columns:1fr 1fr;border:.5px solid #e0e0e0;border-radius:3px;overflow:hidden;margin-bottom:8px}
+  .a4r2 .a4c:first-child{border-right:.5px solid #e0e0e0}
+  .a4sec{margin-bottom:8px;border:.5px solid #e0e0e0;border-radius:3px;overflow:hidden}
+  .a4sec.tsec{border-color:#fca5a5}
+  .a4sec.asec{border-color:#c4b5fd}
+  .a4st{background:#f4f4f4;padding:3px 8px;font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#444;border-bottom:.5px solid #e0e0e0}
+  .tsec .a4st{background:#fff0f0;color:#a51c30;border-bottom-color:#fca5a5}
+  .asec .a4st{background:#f5f3ff;color:#6d28d9;border-bottom-color:#c4b5fd}
+  .a4sb{padding:6px 8px}
+  .a4f{padding:2px 0;border-bottom:.5px solid #f0f0f0}
+  .a4f:last-child{border-bottom:none}
+  .a4l{font-size:6.5px;color:#999;text-transform:uppercase;letter-spacing:.3px;margin-bottom:1px}
+  .a4v{font-size:8.5px;color:#1a1a2e;font-weight:500;min-height:11px}
+  .a4v.empty{color:#ccc;font-weight:400;font-style:italic}
+  .a4inci{font-size:7.5px;line-height:1.5;color:#1a1a2e;word-break:break-word}
+  .a4active-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;border-bottom:.5px solid #f5f0ff}
+  .a4active-row:last-child{border-bottom:none}
+  .a4active-name{font-size:7.5px;color:#1a1a2e}
+  .a4active-pct{font-size:7.5px;font-weight:700;color:#6d28d9}
+  .a4warn{background:#fffbeb;border:.5px solid #f0c000;border-radius:3px;padding:5px 8px;margin-bottom:8px}
+  .a4wt{font-size:7px;font-weight:700;color:#92400e;margin-bottom:2px;text-transform:uppercase}
+  .a4wb{font-size:7.5px;color:#78350f;line-height:1.5}
+  .a4claims{display:flex;flex-wrap:wrap;gap:4px;padding:5px 8px}
+  .a4claim{font-size:7px;background:#e8f4fd;color:#0d5c8f;padding:2px 6px;border-radius:20px;font-weight:600}
+  .a4single{background:#ede9ff;border:.5px solid #c4b5fd;border-radius:3px;padding:4px 8px;margin-bottom:8px;font-size:7.5px;color:#5b21b6;font-weight:600}
+  .a4foot{background:#f0f2f5;border-top:.5px solid #dde0e6;padding:5px 13px;display:flex;justify-content:space-between;align-items:center}
+  .a4fl,.a4fr{font-size:6.5px;color:#aaa}
+  @media print{@page{size:A4;margin:0}body{background:white}.topbar,.form-side,.preview-label{display:none!important}.layout{display:block}.preview-side{position:static;height:auto;background:white;border:none;padding:0}.a4{max-width:100%;width:210mm;min-height:297mm;box-shadow:none;font-size:9.5px}.a4h{padding:16px 20px}.a4hp{font-size:15px}.a4body{padding:12px 20px}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-logo">💉</div>
+    <div>
+      <div class="topbar-title">KULT SKIN RITUAL — PDRN Instant Repair Shot (Ampoule)</div>
+      <div class="topbar-sub">Thai FDA (อย.) · ASEAN Cosmetic Directive · Factsheet</div>
+    </div>
+    <span class="topbar-badge">🇹🇭 Thai FDA</span>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn btn-ghost" onclick="clearForm()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Clear
+    </button>
+    <button class="btn btn-primary" onclick="exportPDF()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16l-4-4h2.5V4h3v8H16l-4 4z"/><path d="M20 18H4v2h16v-2z"/></svg>Export PDF (A4)
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+<div class="form-side">
+
+<div class="notice">
+  <strong>PDRN Instant Repair Shot (Ampoule) — Pre-filled from COSMAX proposal.</strong><br>
+  Fields marked <span style="color:#dc2626">✦ To fill</span> require input before export. Full INCI list needed from COSMAX TDS.
+</div>
+
+<!-- ① THAI FDA -->
+<div class="section-card thai-card">
+  <div class="section-head open" onclick="toggleSection(this)">
+    <div class="section-icon ic-thai">🇹🇭</div>
+    <div class="section-meta"><div class="section-name">Thai FDA notification (อย.) <span style="color:#dc2626;font-size:11px">✦ To fill</span></div><div class="section-desc">Notification number · importer · product type</div></div>
+    <span class="section-badge badge-thai">Thai Mandatory</span>
+    <svg class="section-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body open thai-body">
+    <div class="fg c2">
+      <div class="field thai-field"><label class="tl">Thai FDA notification no. <span class="req">*</span></label><input id="thaiNotifNo" placeholder="e.g. 10-1-6200000-0-0002" oninput="sync()"><div class="hint law">Required before market entry — Cosmetic Act B.E. 2558 §20</div></div>
+      <div class="field thai-field"><label class="tl">Notification date</label><input type="date" id="thaiNotifDate" oninput="sync()"></div>
+      <div class="field thai-field"><label class="tl">Thai importer / responsible entity <span class="req">*</span></label><input id="thaiImporter" oninput="sync()"></div>
+      <div class="field thai-field"><label class="tl">Thai importer address</label><input id="thaiImporterAddr" oninput="sync()"></div>
+      <div class="field thai-field"><label class="tl">Importer licence no.</label><input id="thaiImporterLic" placeholder="e.g. ผค.XXXXX" oninput="sync()"></div>
+      <div class="field thai-field"><label class="tl">Product type (Thai FDA)</label><select id="thaiProductType" onchange="sync()"><option value="">Select…</option><option selected>General cosmetic (เครื่องสำอางทั่วไป)</option><option>Controlled cosmetic (เครื่องสำอางควบคุม)</option><option>Hair dye / colorant</option><option>Sunscreen (SPF product)</option><option>Antiperspirant / Deodorant</option><option>Anti-dandruff</option><option>Anti-acne</option></select></div>
+      <div class="field thai-field s2"><label class="tl">Product name in Thai <span class="req">*</span></label><input id="thaiProductNameTH" oninput="sync()" style="font-size:14px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ② PRODUCT ID -->
+<div class="section-card">
+  <div class="section-head open" onclick="toggleSection(this)">
+    <div class="section-icon ic-purple">💉</div>
+    <div class="section-meta"><div class="section-name">Product identification <span class="filled-badge">Pre-filled</span></div><div class="section-desc">Brand, product name, category, net content</div></div>
+    <span class="section-badge badge-mandatory">Mandatory</span>
+    <svg class="section-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body open">
+    <div class="fg c2">
+      <div class="field"><label>Brand name</label><input id="brandName" oninput="sync()"></div>
+      <div class="field"><label>Product name (English)</label><input id="productName" oninput="sync()"></div>
+      <div class="field"><label>Product line / series</label><input id="productSubtype" oninput="sync()"></div>
+      <div class="field"><label>Product category</label><select id="productCategory" onchange="sync()"><option value="">Select…</option><option>Moisturiser</option><option selected>Serum</option><option>Cleanser</option><option>Toner</option><option>Sunscreen / SPF</option><option>Foundation / BB cream</option><option>Eye cream</option><option>Lip product</option><option>Body lotion</option><option>Hair care</option><option>Mask / Treatment</option><option>Ampoule / Shot</option><option>Exfoliant / Scrub</option><option>Other</option></select></div>
+      <div class="field"><label>Net content (EN) <span class="req">✦</span></label><input id="netContent" placeholder="e.g. 2 ml / 1 ampoule" oninput="sync()"></div>
+      <div class="field thai-field"><label class="tl">Net content (Thai label) <span class="req">✦</span></label><input id="netContentTH" placeholder="e.g. 2 มล. / 1 หลอด" oninput="sync()" style="font-size:13px"></div>
+      <div class="field"><label>Country of manufacture</label><input id="countryManufacture" oninput="sync()"></div>
+      <div class="field thai-field"><label class="tl">Country of manufacture (Thai)</label><input id="countryManufactureTH" oninput="sync()" style="font-size:13px"></div>
+      <div class="field s2"><label>Lab / product reference no.</label><input id="productDescription" oninput="sync()"></div>
+    </div>
+    <div class="divider"></div>
+    <div class="notice" style="background:#f5f3ff;border-color:#c4b5fd;color:#5b21b6;font-size:11.5px;margin:0">
+      <strong>⚗ Single-use ampoule:</strong> This product is formulated for a single application. Entire contents should be used immediately upon opening.
+    </div>
+  </div>
+</div>
+
+<!-- ③ INCI & ACTIVES -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <div class="section-icon ic-teal">🧪</div>
+    <div class="section-meta"><div class="section-name">Ingredient list (INCI) &amp; key actives <span class="filled-badge">Actives Pre-filled</span></div><div class="section-desc">Marketing actives pre-filled · Full INCI from TDS needed</div></div>
+    <span class="section-badge badge-mandatory">Mandatory</span>
+    <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body">
+    <div class="fg c1">
+      <div class="field"><label>Full INCI ingredient list <span class="req">*</span></label><textarea id="inciList" rows="5" placeholder="Add complete INCI list from TDS (Technical Data Sheet)…" oninput="sync()"></textarea><div class="hint tip">⚠ Full INCI from TDS not yet available. Add in descending order of concentration once TDS is received from COSMAX.</div></div>
+
+      <div>
+        <div class="sub" style="margin-bottom:8px">Key active ingredients (from COSMAX proposal) <span class="filled-badge">Pre-filled</span></div>
+        <table class="actives-table">
+          <thead><tr><th>%</th><th>INCI / Active name</th><th>Benefit</th></tr></thead>
+          <tbody>
+            <tr><td class="pct">1%</td><td>BiomePDRN <span class="prop">COSMAX</span></td><td>Skin barrier renewal, DNA repair</td></tr>
+            <tr><td class="pct">5.0%</td><td>Niacinamide</td><td>Brightening, pore minimising</td></tr>
+            <tr><td class="pct">3.0%</td><td>Trehalose</td><td>Deep moisturisation</td></tr>
+            <tr><td class="pct">3.0%</td><td>Hyalosamine</td><td>Hyaluronic acid derivative</td></tr>
+            <tr><td class="pct">3.0%</td><td>Tranexamic Acid</td><td>Skin brightening</td></tr>
+            <tr><td class="pct">5.0%</td><td>Azeloglicina <span class="prop">COSMAX</span></td><td>Brightening, anti-pigment</td></tr>
+            <tr><td class="pct">0.5%</td><td>Dipotassium Glycyrrhizinate</td><td>Soothing, anti-inflammatory</td></tr>
+            <tr><td class="pct">0.5%</td><td>Skin Moist Up</td><td>Moisture binding</td></tr>
+            <tr><td class="pct">0.3%</td><td>Panthenol</td><td>Barrier support, hydration</td></tr>
+            <tr><td class="pct">0.1%</td><td>Low Molecular Weight Hyaluronic Acid</td><td>Deep skin hydration</td></tr>
+            <tr><td class="pct">0.04%</td><td>Adenosine</td><td>Anti-wrinkle (อย. approved)</td></tr>
+            <tr><td class="pct">—</td><td>Centella Asiatica Complex</td><td>Soothing, repair</td></tr>
+          </tbody>
+        </table>
+        <div class="hint info" style="margin-top:6px">ℹ COSMAX proprietary complexes (BiomePDRN, Azeloglicina) — add INCI sub-components from TDS once available.</div>
+      </div>
+      <div class="field"><label>Key actives (summary for label)</label><input id="keyIngredients" oninput="sync()"></div>
+      <div class="field thai-field"><label class="tl">Restricted substances check</label><select id="prohibitedCheck" onchange="sync()"><option value="">Select…</option><option selected>✅ Confirmed — no Annex II/III prohibited substances</option><option>⚠ Pending — safety review in progress</option></select></div>
+      <div class="field"><label>EU fragrance allergens</label><input id="allergens" value="None declared (Fragrance-free)" oninput="sync()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ④ MARKETING -->
+<div class="section-card" style="border-color:#fde68a">
+  <div class="section-head open" onclick="toggleSection(this)">
+    <div class="section-icon" style="background:#fef9c3">✨</div>
+    <div class="section-meta"><div class="section-name">Marketing information <span class="filled-badge">Pre-filled</span></div><div class="section-desc">Product story · key benefits · USP · social copy</div></div>
+    <span class="section-badge" style="background:#fef9c3;color:#92400e">Marketing</span>
+    <svg class="section-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body open" style="background:#fefce8">
+    <div class="fg c1">
+      <div class="fg c2">
+        <div class="field"><label>Product tagline (EN)</label><input id="mktTaglineEN" oninput="sync()"></div>
+        <div class="field"><label>Product tagline (TH)</label><input id="mktTaglineTH" oninput="sync()" style="font-size:13px"></div>
+      </div>
+      <div class="field"><label>Product hero story / description (EN)</label><textarea id="mktStoryEN" rows="3" oninput="sync()"></textarea></div>
+      <div class="field"><label>Product hero story (TH)</label><textarea id="mktStoryTH" rows="3" oninput="sync()" style="font-size:13px"></textarea></div>
+      <div class="divider"></div>
+      <div class="sub">Key product benefits</div>
+      <div class="fg c2">
+        <div class="field"><label>Benefit 1</label><input id="mktBenefit1" oninput="sync()"></div>
+        <div class="field"><label>Benefit 2</label><input id="mktBenefit2" oninput="sync()"></div>
+        <div class="field"><label>Benefit 3</label><input id="mktBenefit3" oninput="sync()"></div>
+        <div class="field"><label>Benefit 4</label><input id="mktBenefit4" oninput="sync()"></div>
+        <div class="field"><label>Benefit 5</label><input id="mktBenefit5" oninput="sync()"></div>
+        <div class="field"><label>Benefit 6</label><input id="mktBenefit6" oninput="sync()"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="fg c2">
+        <div class="field"><label>USP — Unique selling proposition</label><textarea id="mktUSP" rows="2" oninput="sync()"></textarea></div>
+        <div class="field"><label>Hero technology / key ingredient story</label><textarea id="mktTech" rows="2" oninput="sync()"></textarea></div>
+        <div class="field"><label>Target skin type</label><input id="mktSkinType" oninput="sync()"></div>
+        <div class="field"><label>Target skin concerns</label><input id="mktSkinConcerns" oninput="sync()"></div>
+        <div class="field"><label>Product positioning / tier</label><input id="mktPositioning" oninput="sync()"></div>
+        <div class="field"><label>Recommended usage frequency</label><input id="mktUsageFreq" oninput="sync()"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="sub">Social media &amp; retail copy</div>
+      <div class="fg c1">
+        <div class="field"><label>Instagram / social caption (EN)</label><textarea id="mktSocialEN" rows="3" placeholder="Caption for social media posts…" oninput="sync()"></textarea></div>
+        <div class="field"><label>Instagram / social caption (TH)</label><textarea id="mktSocialTH" rows="3" placeholder="แคปชั่นสำหรับโซเชียลมีเดีย…" oninput="sync()" style="font-size:13px"></textarea></div>
+        <div class="field"><label>E-commerce short description (EN · max 150 chars)</label><textarea id="mktEcomEN" rows="2" maxlength="200" oninput="sync()"></textarea></div>
+        <div class="field"><label>Additional marketing notes / claims to avoid</label><textarea id="mktNotes" rows="2" placeholder="e.g. Do not claim 'treats skin' — not permitted by Thai FDA…" oninput="sync()"></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ DATING -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <div class="section-icon ic-amber">📅</div>
+    <div class="section-meta"><div class="section-name">Dating &amp; traceability <span style="color:#dc2626;font-size:11px">✦ To fill</span></div><div class="section-desc">Batch number format, PAO, best before</div></div>
+    <span class="section-badge badge-mandatory">Mandatory</span>
+    <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body">
+    <div class="fg c3">
+      <div class="field"><label>Batch / lot number format <span class="req">*</span></label><input id="batchFormat" placeholder="e.g. YYMMXXXX" oninput="sync()"></div>
+      <div class="field"><label>Period after opening (PAO) <span class="req">*</span></label><div class="pao-row"><input type="number" id="paoMonths" min="1" max="60" placeholder="N/A" oninput="sync()"><span>months</span></div><div class="hint">Single-use — PAO may not apply; use shelf life instead.</div></div>
+      <div class="field"><label>Best before (if &lt;30 months)</label><input id="bestBefore" placeholder="Best before end MM/YY" oninput="sync()"></div>
+      <div class="field thai-field"><label class="tl">Best before (Thai)</label><input id="bestBeforeTH" placeholder="ควรใช้ก่อน" oninput="sync()" style="font-size:13px"></div>
+      <div class="field thai-field"><label class="tl">Date calendar</label><select id="buddhistEra" onchange="sync()"><option value="">Select…</option><option>Gregorian (CE)</option><option selected>Buddhist Era (BE = CE + 543)</option><option>Both CE and BE</option></select></div>
+      <div class="field"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ THAI LABEL -->
+<div class="section-card thai-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <div class="section-icon ic-thai">🏷️</div>
+    <div class="section-meta"><div class="section-name">Thai label content (ฉลาก) <span class="filled-badge">Pre-filled</span></div><div class="section-desc">สรรพคุณ · วิธีใช้ · คำเตือน — review and edit</div></div>
+    <span class="section-badge badge-thai">Thai Mandatory</span>
+    <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body thai-body">
+    <div class="fg c1">
+      <div class="field thai-field"><label class="tl">สรรพคุณ / Product claims (Thai) <span class="req">*</span></label><textarea id="thaiClaims" rows="2" oninput="sync()" style="font-size:13px"></textarea><div class="hint law">Claims must be truthful — no therapeutic claims. Verify with Thai FDA before print.</div></div>
+      <div class="field thai-field"><label class="tl">วิธีใช้ / How to use (Thai) <span class="req">*</span></label><textarea id="thaiHowToUse" rows="6" oninput="sync()" style="font-size:13px"></textarea></div>
+      <div class="field thai-field"><label class="tl">คำเตือน / Warnings (Thai) <span class="req">*</span></label><textarea id="thaiWarnings" rows="3" oninput="sync()" style="font-size:13px"></textarea></div>
+      <div class="field thai-field"><label class="tl">การเก็บรักษา / Storage (Thai)</label><input id="thaiStorage" oninput="sync()" style="font-size:13px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑥ MANUFACTURER -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <div class="section-icon ic-gray">🏭</div>
+    <div class="section-meta"><div class="section-name">Manufacturer &amp; importer <span class="filled-badge">Pre-filled</span></div><div class="section-desc">COSMAX Thailand · NUB NGERN MAI TUN</div></div>
+    <span class="section-badge badge-mandatory">Mandatory</span>
+    <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body">
+    <div class="sub">Manufacturer (ผู้ผลิต)</div>
+    <div class="fg c2">
+      <div class="field"><label>Company name (EN)</label><input id="mfrName" oninput="sync()"></div>
+      <div class="field"><label>Address (EN)</label><input id="mfrAddress" oninput="sync()"></div>
+      <div class="field"><label>Company name (TH)</label><input id="mfrNameTH" oninput="sync()" style="font-size:13px"></div>
+      <div class="field"><label>Address (TH)</label><input id="mfrAddressTH" oninput="sync()" style="font-size:13px"></div>
+    </div>
+    <div class="divider"></div>
+    <div class="sub">Thai importer / customer (ผู้ว่าจ้างผลิต / ผู้นำเข้า)</div>
+    <div class="fg c2">
+      <div class="field thai-field"><label class="tl">Company (Thai) <span class="req">*</span></label><input id="thaiImporterLabel" oninput="sync()" style="font-size:13px"></div>
+      <div class="field thai-field"><label class="tl">Address (Thai) <span class="req">*</span></label><input id="thaiImporterAddrLabel" oninput="sync()" style="font-size:13px"></div>
+      <div class="field"><label>Company (EN)</label><input id="distName" oninput="sync()"></div>
+      <div class="field"><label>Address (EN)</label><input id="distAddress" oninput="sync()"></div>
+      <div class="field"><label>Website</label><input id="website" oninput="sync()"></div>
+      <div class="field"><label>Contact / email</label><input id="contact" oninput="sync()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑦ USAGE & WARNINGS EN -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <div class="section-icon ic-red">⚠️</div>
+    <div class="section-meta"><div class="section-name">Usage &amp; warnings (English) <span class="filled-badge">Pre-filled</span></div><div class="section-desc">How to use · precautions · single-use note</div></div>
+    <span class="section-badge badge-mandatory">Mandatory</span>
+    <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body">
+    <div class="fg c1">
+      <div class="field"><label>How to use (EN) <span class="req">*</span></label><textarea id="howToUse" rows="6" oninput="sync()"></textarea></div>
+      <div class="field"><label>Warnings &amp; precautions (EN) <span class="req">*</span></label><textarea id="warnings" rows="2" oninput="sync()"></textarea></div>
+      <div class="field"><label>Storage conditions</label><input id="storage" oninput="sync()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑧ REGULATORY -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <div class="section-icon ic-blue">🛡️</div>
+    <div class="section-meta"><div class="section-name">Regulatory references <span class="filled-badge">Partial</span></div><div class="section-desc">CPNP, GMP, ACD compliance, target markets</div></div>
+    <span class="section-badge badge-optional">PIF / Internal</span>
+    <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body">
+    <div class="fg c2">
+      <div class="field thai-field"><label class="tl">ACD (ASEAN) compliance</label><select id="acdCompliance" onchange="sync()"><option>✅ Yes — ASEAN Cosmetic Directive (ACD)</option><option>⚠ Partial</option><option>N/A</option></select></div>
+      <div class="field"><label>GMP standard</label><select id="gmpStandard" onchange="sync()"><option value="">Select…</option><option selected>Thai GMP (Cosmetic Act B.E. 2558)</option><option>ISO 22716:2007</option><option>EU GMP (Reg. 1223/2009)</option></select></div>
+      <div class="field"><label>Target market(s)</label><input id="targetMarket" oninput="sync()"></div>
+      <div class="field"><label>EU CPNP reference</label><input id="cpnpRef" placeholder="CPNP-XXXXXXXX (if applicable)" oninput="sync()"></div>
+      <div class="field"><label>PSRA / safety report ref.</label><input id="psraRef" oninput="sync()"></div>
+      <div class="field"><label>CPSR date</label><input type="date" id="cpsrDate" oninput="sync()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑨ CLAIMS & PACKAGING -->
+<div class="section-card">
+  <div class="section-head" onclick="toggleSection(this)">
+    <div class="section-icon ic-green">📐</div>
+    <div class="section-meta"><div class="section-name">Claims, certifications &amp; packaging <span class="filled-badge">Pre-filled</span></div><div class="section-desc">Paraben-free · Silicone-free · Alcohol-free · No animal testing</div></div>
+    <span class="section-badge badge-optional">Optional / PIF</span>
+    <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="section-body">
+    <div class="cbgrid">
+      <label class="chip" id="chip-claimCrueltyFree"><input type="checkbox" id="claimCrueltyFree" onchange="toggleChip(this);sync()"><span class="chip-dot">✓</span>Cruelty-free</label>
+      <label class="chip" id="chip-claimVegan"><input type="checkbox" id="claimVegan" onchange="toggleChip(this);sync()"><span class="chip-dot">✓</span>Vegan</label>
+      <label class="chip" id="chip-claimParabenFree"><input type="checkbox" id="claimParabenFree" onchange="toggleChip(this);sync()"><span class="chip-dot">✓</span>Paraben-free</label>
+      <label class="chip" id="chip-claimSiliconeFree"><input type="checkbox" id="claimSiliconeFree" onchange="toggleChip(this);sync()"><span class="chip-dot">✓</span>Silicone-free</label>
+      <label class="chip" id="chip-claimAlcoholFree"><input type="checkbox" id="claimAlcoholFree" onchange="toggleChip(this);sync()"><span class="chip-dot">✓</span>Alcohol Denat.-free</label>
+      <label class="chip" id="chip-claimMineralOilFree"><input type="checkbox" id="claimMineralOilFree" onchange="toggleChip(this);sync()"><span class="chip-dot">✓</span>Mineral oil-free</label>
+      <label class="chip" id="chip-claimSulfateFree"><input type="checkbox" id="claimSulfateFree" onchange="toggleChip(this);sync()"><span class="chip-dot">✓</span>SLS/SLES-free</label>
+      <label class="chip" id="chip-claimColorantFree"><input type="checkbox" id="claimColorantFree" onchange="toggleChip(this);sync()"><span class="chip-dot">✓</span>Colorant-free</label>
+      <label class="chip" id="chip-claimFragranceFree"><input type="checkbox" id="claimFragranceFree" onchange="toggleChip(this);sync()"><span class="chip-dot">✓</span>Fragrance-free</label>
+    </div>
+    <div class="fg c1" style="margin-top:10px">
+      <div class="field"><label>Other certifications</label><input id="otherClaims" placeholder="e.g. HALAL-THAILAND, COSMOS…" oninput="sync()"></div>
+    </div>
+    <div class="divider"></div>
+    <div class="sub" style="margin-bottom:9px">Packaging details</div>
+    <div class="fg c3">
+      <div class="field"><label>Container type</label><select id="containerType" onchange="sync()"><option value="">Select…</option><option>Glass ampoule</option><option>Plastic ampoule</option><option>Glass bottle</option><option selected>Bottle with pump</option><option>Tube</option><option>Sachet / Pouch</option><option>Other</option></select></div>
+      <div class="field"><label>Primary material</label><input id="primaryMaterial" placeholder="e.g. Glass / PP" oninput="sync()"></div>
+      <div class="field"><label>Recycling code</label><select id="recyclingCode" onchange="sync()"><option value="">Select…</option><option>Glass</option><option>PET (1)</option><option>HDPE (2)</option><option>PP (5)</option><option>Aluminium</option><option>Other</option></select></div>
+      <div class="field"><label>Gross weight (g) <span class="req">✦</span></label><input id="grossWeight" placeholder="e.g. 5 g" oninput="sync()"></div>
+      <div class="field"><label>Dimensions (mm) <span class="req">✦</span></label><input id="dimensions" placeholder="Ø × H mm" oninput="sync()"></div>
+      <div class="field"><label>Barcode / EAN-13 <span class="req">✦</span></label><input id="barcode" placeholder="885XXXXXXXXXX" oninput="sync()"><div class="hint">Thai GS1 prefix: 885</div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /form-side -->
+
+<!-- PREVIEW -->
+<div class="preview-side">
+  <div class="preview-label">🇹🇭 A4 Preview</div>
+  <div class="a4" id="a4Sheet">
+    <div class="a4h">
+      <div><div class="a4hb" id="pv-brand">KULT</div><div class="a4hp" id="pv-product">PDRN Instant Repair Shot (Ampoule)</div><div class="a4ht" id="pv-product-th">พีดีอาร์เอ็น อินสแตนท์ รีแพร์ ช็อต</div></div>
+      <div class="a4hr"><div class="a4tag">Cosmetic Factsheet</div><br><div class="a4thai">🇹🇭 Thai FDA</div></div>
+    </div>
+    <div class="a4body">
+      <div class="a4notif">
+        <div><div style="font-size:7px;font-weight:700;color:#991b1b;text-transform:uppercase">Thai FDA (อย.) notification</div><div class="a4notif-badge" id="pv-notif">เลขที่ใบรับแจ้ง: —</div></div>
+        <div style="text-align:right"><div style="font-size:6.5px;color:#999">ผู้นำเข้า</div><div style="font-size:7.5px;font-weight:600;color:#1a1a2e" id="pv-importer">—</div></div>
+      </div>
+      <div class="a4single">⚗ Single-use ampoule — Use entire contents immediately upon opening</div>
+      <div class="a4r2">
+        <div class="a4c"><div class="a4sec" style="border:none;border-radius:0;margin:0"><div class="a4st">Product identification</div><div class="a4sb"><div class="a4f"><div class="a4l">Category</div><div class="a4v" id="pv-cat">—</div></div><div class="a4f"><div class="a4l">Net content</div><div class="a4v" id="pv-net">—</div></div><div class="a4f"><div class="a4l">Country</div><div class="a4v" id="pv-country">—</div></div><div class="a4f"><div class="a4l">Lab ref.</div><div class="a4v" id="pv-desc">—</div></div></div></div></div>
+        <div class="a4c"><div class="a4sec" style="border:none;border-radius:0;margin:0"><div class="a4st">Dating &amp; traceability</div><div class="a4sb"><div class="a4f"><div class="a4l">Batch format</div><div class="a4v" id="pv-batch">—</div></div><div class="a4f"><div class="a4l">Shelf life</div><div class="a4v" id="pv-pao">—</div></div><div class="a4f"><div class="a4l">Best before</div><div class="a4v" id="pv-bb">—</div></div><div class="a4f"><div class="a4l">Calendar</div><div class="a4v" id="pv-cal">—</div></div></div></div></div>
+      </div>
+      <div class="a4sec asec">
+        <div class="a4st">Key active ingredients (from COSMAX proposal)</div>
+        <div class="a4sb">
+          <div class="a4active-row"><span class="a4active-name">1% BiomePDRN (COSMAX) — DNA repair, barrier renewal</span><span class="a4active-pct">1%</span></div>
+          <div class="a4active-row"><span class="a4active-name">Niacinamide — Brightening</span><span class="a4active-pct">5.0%</span></div>
+          <div class="a4active-row"><span class="a4active-name">Trehalose — Deep hydration</span><span class="a4active-pct">3.0%</span></div>
+          <div class="a4active-row"><span class="a4active-name">Hyalosamine — HA derivative</span><span class="a4active-pct">3.0%</span></div>
+          <div class="a4active-row"><span class="a4active-name">Tranexamic Acid — Brightening</span><span class="a4active-pct">3.0%</span></div>
+          <div class="a4active-row"><span class="a4active-name">Azeloglicina (COSMAX) — Anti-pigment</span><span class="a4active-pct">5.0%</span></div>
+          <div class="a4active-row"><span class="a4active-name">Dipotassium Glycyrrhizinate — Soothing</span><span class="a4active-pct">0.5%</span></div>
+          <div class="a4active-row"><span class="a4active-name">Adenosine — Anti-wrinkle</span><span class="a4active-pct">0.04%</span></div>
+          <div class="a4active-row"><span class="a4active-name">Centella Asiatica Complex — Repair</span><span class="a4active-pct">—</span></div>
+        </div>
+      </div>
+      <div class="a4sec">
+        <div class="a4st">Full INCI ingredient list</div>
+        <div class="a4sb"><div class="a4inci" id="pv-inci">—</div></div>
+      </div>
+      <div class="a4sec tsec">
+        <div class="a4st">Thai label (ฉลากภาษาไทย)</div>
+        <div class="a4sb">
+          <div class="a4f"><div class="a4l">สรรพคุณ</div><div class="a4v" id="pv-thclaims" style="font-family:'Sarabun',sans-serif">—</div></div>
+          <div class="a4f"><div class="a4l">วิธีใช้</div><div class="a4v" id="pv-thhow" style="font-family:'Sarabun',sans-serif;font-weight:400;font-size:7.5px">—</div></div>
+          <div class="a4f"><div class="a4l">คำเตือน</div><div class="a4v" id="pv-thwarn" style="font-family:'Sarabun',sans-serif;font-weight:400;font-size:7px">—</div></div>
+        </div>
+      </div>
+      <div class="a4r2">
+        <div class="a4c"><div class="a4sec" style="border:none;border-radius:0;margin:0"><div class="a4st">Manufacturer</div><div class="a4sb"><div class="a4f"><div class="a4l">Company</div><div class="a4v" id="pv-mfr">—</div></div><div class="a4f"><div class="a4l">Address</div><div class="a4v" id="pv-mfraddr">—</div></div></div></div></div>
+        <div class="a4c"><div class="a4sec tsec" style="border:none;border-radius:0;margin:0"><div class="a4st">Thai importer (ผู้นำเข้า)</div><div class="a4sb"><div class="a4f"><div class="a4l">Company (TH)</div><div class="a4v" id="pv-imp" style="font-family:'Sarabun',sans-serif">—</div></div><div class="a4f"><div class="a4l">Address (TH)</div><div class="a4v" id="pv-impaddr" style="font-family:'Sarabun',sans-serif">—</div></div><div class="a4f"><div class="a4l">Contact</div><div class="a4v" id="pv-web">—</div></div></div></div></div>
+      </div>
+      <div class="a4warn"><div class="a4wt">⚠ Warnings &amp; precautions</div><div class="a4wb" id="pv-warn">—</div></div>
+      <div class="a4r2">
+        <div class="a4c"><div class="a4sec" style="border:none;border-radius:0;margin:0"><div class="a4st">How to use (EN)</div><div class="a4sb"><div class="a4f"><div class="a4v" id="pv-how" style="font-weight:400;font-size:7.5px;line-height:1.5">—</div></div><div class="a4f"><div class="a4l">Storage</div><div class="a4v" id="pv-storage">—</div></div></div></div></div>
+        <div class="a4c"><div class="a4sec" style="border:none;border-radius:0;margin:0"><div class="a4st">Packaging / Compliance</div><div class="a4sb"><div class="a4f"><div class="a4l">Container</div><div class="a4v" id="pv-pkg">—</div></div><div class="a4f"><div class="a4l">GMP / ACD</div><div class="a4v" id="pv-gmp">—</div></div><div class="a4f"><div class="a4l">Barcode</div><div class="a4v" id="pv-barcode">—</div></div></div></div></div>
+      </div>
+      <div class="a4sec"><div class="a4st">Claims &amp; certifications</div><div class="a4claims" id="pv-claims"><span style="font-size:7px;color:#bbb;font-style:italic">None</span></div></div>
+    </div>
+    <div class="a4foot"><div class="a4fl" id="pv-footer-mfr">—</div><div class="a4fr">Thai FDA: <span id="pv-footer-ref">—</span> · <span id="pv-footer-date"></span></div></div>
+  </div>
+</div>
+</div>
+
+<script>
+function g(id){return document.getElementById(id)}
+function val(id){const e=g(id);return e?e.value.trim():''}
+function chk(id){return g(id)?g(id).checked:false}
+function sv(id,v){const e=g(id);if(!e)return;e.textContent=v||'—';e.className='a4v'+(v?'':' empty')}
+function toggleSection(h){const b=h.nextElementSibling,c=h.querySelector('.section-chevron'),o=b.classList.contains('open');b.classList.toggle('open',!o);h.classList.toggle('open',!o);c.classList.toggle('open',!o)}
+function toggleChip(cb){const c=g('chip-'+cb.id);if(c)c.classList.toggle('checked',cb.checked)}
+
+function sync(){
+  g('pv-brand').textContent=val('brandName')||'KULT';
+  g('pv-product').textContent=val('productName')||'PDRN Instant Repair Shot';
+  g('pv-product-th').textContent=val('thaiProductNameTH')||'';
+  const notif=val('thaiNotifNo');
+  g('pv-notif').textContent=notif?'เลขที่ใบรับแจ้ง: '+notif:'เลขที่ใบรับแจ้ง: —';
+  sv('pv-importer',val('thaiImporter'));
+  sv('pv-cat',val('productCategory'));
+  const net=[val('netContent'),val('netContentTH')].filter(Boolean).join(' / ');
+  sv('pv-net',net);
+  const co=[val('countryManufacture'),val('countryManufactureTH')].filter(Boolean).join(' · ');
+  sv('pv-country',co);
+  sv('pv-desc',val('productDescription'));
+  sv('pv-batch',val('batchFormat'));
+  sv('pv-pao',val('paoMonths')?val('paoMonths')+' months (shelf life)':'Single-use');
+  const bb=[val('bestBefore'),val('bestBeforeTH')].filter(Boolean).join(' / ');
+  sv('pv-bb',bb);
+  sv('pv-cal',val('buddhistEra'));
+  g('pv-inci').textContent=val('inciList')||'— Awaiting TDS from COSMAX —';
+  sv('pv-thclaims',val('thaiClaims'));
+  g('pv-thhow').textContent=val('thaiHowToUse')||'—';
+  g('pv-thwarn').textContent=val('thaiWarnings')||'—';
+  sv('pv-mfr',val('mfrName'));
+  sv('pv-mfraddr',val('mfrAddress'));
+  sv('pv-imp',val('thaiImporterLabel'));
+  sv('pv-impaddr',val('thaiImporterAddrLabel'));
+  sv('pv-web',[val('website'),val('contact')].filter(Boolean).join(' · '));
+  g('pv-warn').textContent=val('warnings')||'—';
+  g('pv-how').textContent=val('howToUse')||'—';
+  sv('pv-storage',val('storage'));
+  const pkg=[val('containerType'),val('primaryMaterial')].filter(Boolean).join(' · ');
+  sv('pv-pkg',pkg);
+  sv('pv-gmp',[val('gmpStandard'),val('acdCompliance')].filter(Boolean).join(' · '));
+  sv('pv-barcode',val('barcode'));
+  const claimMap=[['claimCrueltyFree','Cruelty-free'],['claimVegan','Vegan'],['claimParabenFree','Paraben-free'],['claimSiliconeFree','Silicone-free'],['claimAlcoholFree','Alcohol Denat.-free'],['claimMineralOilFree','Mineral oil-free'],['claimSulfateFree','SLS/SLES-free'],['claimColorantFree','Colorant-free'],['claimFragranceFree','Fragrance-free']];
+  const active=claimMap.filter(([id])=>chk(id)).map(([,l])=>l);
+  const oc=val('otherClaims');if(oc)active.push(...oc.split(',').map(s=>s.trim()).filter(Boolean));
+  const ce=g('pv-claims');
+  ce.innerHTML=active.length?active.map(l=>`<span class="a4claim">${l}</span>`).join(''):'<span style="font-size:7px;color:#bbb;font-style:italic">None selected</span>';
+  g('pv-footer-mfr').textContent=val('mfrName')?'Mfr: '+val('mfrName'):'—';
+  g('pv-footer-ref').textContent=val('thaiNotifNo')||'—';
+}
+
+function exportPDF(){
+  const html=g('a4Sheet').outerHTML;
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>KULT PDRN Instant Repair Shot — Factsheet</title><style>@page{size:A4;margin:0}*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;background:white;color:#111;font-size:9.5px;line-height:1.4;width:210mm}.a4{width:210mm;min-height:297mm;background:white}.a4h{background:#2d1a5c;color:white;padding:16px 20px;display:flex;justify-content:space-between;align-items:flex-start}.a4hb{font-size:9.5px;opacity:.7;margin-bottom:2px}.a4hp{font-size:15px;font-weight:700}.a4ht{font-size:9px;opacity:.65;margin-top:2px}.a4hr{text-align:right}.a4tag{background:rgba(255,255,255,.15);padding:2px 7px;border-radius:3px;font-size:7.5px;text-transform:uppercase;letter-spacing:.5px;display:inline-block;margin-bottom:2px}.a4thai{background:#a51c30;padding:2px 7px;border-radius:3px;font-size:7.5px;display:inline-block}.a4body{padding:12px 20px}.a4notif{background:#fff0f0;border:.5px solid #fca5a5;border-radius:3px;padding:5px 8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}.a4notif-badge{display:inline-block;background:#fff0f0;border:.5px solid #fca5a5;color:#a51c30;font-size:8px;font-weight:700;padding:2px 7px;border-radius:3px;margin-top:3px}.a4single{background:#ede9ff;border:.5px solid #c4b5fd;border-radius:3px;padding:4px 8px;margin-bottom:8px;font-size:8px;color:#5b21b6;font-weight:600}.a4r2{display:grid;grid-template-columns:1fr 1fr;border:.5px solid #e0e0e0;border-radius:3px;overflow:hidden;margin-bottom:8px}.a4c:first-child{border-right:.5px solid #e0e0e0}.a4sec{margin-bottom:8px;border:.5px solid #e0e0e0;border-radius:3px;overflow:hidden}.tsec{border-color:#fca5a5}.asec{border-color:#c4b5fd}.a4st{background:#f4f4f4;padding:3px 8px;font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#444;border-bottom:.5px solid #e0e0e0}.tsec .a4st{background:#fff0f0;color:#a51c30;border-bottom-color:#fca5a5}.asec .a4st{background:#f5f3ff;color:#6d28d9;border-bottom-color:#c4b5fd}.a4sb{padding:6px 8px}.a4f{padding:2.5px 0;border-bottom:.5px solid #f0f0f0}.a4f:last-child{border-bottom:none}.a4l{font-size:7px;color:#999;text-transform:uppercase;letter-spacing:.3px;margin-bottom:1px}.a4v{font-size:9px;color:#1a1a2e;font-weight:500;min-height:11px}.a4v.empty{color:#ccc;font-weight:400;font-style:italic}.a4inci{font-size:8px;line-height:1.5;color:#1a1a2e;word-break:break-word}.a4active-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;border-bottom:.5px solid #f5f0ff}.a4active-row:last-child{border-bottom:none}.a4active-name{font-size:8px;color:#1a1a2e}.a4active-pct{font-size:8px;font-weight:700;color:#6d28d9}.a4warn{background:#fffbeb;border:.5px solid #f0c000;border-radius:3px;padding:5px 8px;margin-bottom:8px}.a4wt{font-size:7.5px;font-weight:700;color:#92400e;margin-bottom:2px;text-transform:uppercase}.a4wb{font-size:8px;color:#78350f;line-height:1.5}.a4claims{display:flex;flex-wrap:wrap;gap:4px;padding:5px 8px}.a4claim{font-size:7.5px;background:#e8f4fd;color:#0d5c8f;padding:2px 6px;border-radius:20px;font-weight:600}.a4foot{background:#f0f2f5;border-top:.5px solid #dde0e6;padding:6px 20px;display:flex;justify-content:space-between;align-items:center}.a4fl,.a4fr{font-size:7px;color:#aaa}</style></head><body>${html}<script>window.onload=function(){window.print()}<\/script></body></html>`);
+  w.document.close();
+}
+
+function clearForm(){if(!confirm('Clear all fields? Pre-filled data will be removed.'))return;document.querySelectorAll('input:not([type=checkbox]),select,textarea').forEach(e=>e.value='');document.querySelectorAll('input[type=checkbox]').forEach(e=>{e.checked=false;const c=g('chip-'+e.id);if(c)c.classList.remove('checked')});sync()}
+
+// ── Pre-fill KULT Instant Repair Shot data ─────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  const d={
+    brandName:'KULT',
+    productName:'PDRN Instant Repair Shot (Ampoule)',
+    thaiProductNameTH:'พีดีอาร์เอ็น อินสแตนท์ รีแพร์ ช็อต (แอมพูล)',
+    productSubtype:'SKIN RITUAL',
+    productDescription:'SEB260429AC02PTK01',
+    countryManufacture:'Made in Thailand',
+    countryManufactureTH:'ผลิตในประเทศไทย',
+    keyIngredients:'1% BiomePDRN (COSMAX), 5% Niacinamide, 3% Trehalose, 3% Hyalosamine, 3% Tranexamic Acid, 5% Azeloglicina (COSMAX), 0.04% Adenosine, Centella Asiatica Complex',
+    thaiImporter:'บริษัท นับเงินไม่ทัน จำกัด (สำนักงานใหญ่)',
+    thaiImporterAddr:'266/15 ซอยสยามสแควร์ 3 ถนนพระราม 1 แขวงปทุมวัน เขตปทุมวัน กรุงเทพมหานคร 10330',
+    thaiImporterLabel:'บริษัท นับเงินไม่ทัน จำกัด (สำนักงานใหญ่)',
+    thaiImporterAddrLabel:'266/15 ซอยสยามสแควร์ 3 ถนนพระราม 1 แขวงปทุมวัน เขตปทุมวัน กรุงเทพมหานคร 10330',
+    // Marketing
+    mktTaglineEN:'The Ultimate Single-Dose PDRN Serum Shot for Instant Brightening & Repair',
+    mktTaglineTH:'เซรั่มช็อต PDRN ขนาดหนึ่งโดส เพื่อผิวกระจ่างใสและฟื้นฟูทันที',
+    mktStoryEN:'KULT PDRN Instant Repair Shot is a concentrated single-use serum ampoule powered by COSMAX BiomePDRN technology. Packed with 12 active ingredients — Niacinamide (5%), Tranexamic Acid (3%), Azeloglicina (5%), Adenosine, and Centella Asiatica Complex — this precision-dosed shot targets dark spots, fine lines, dehydration, and barrier weakness in a single application.',
+    mktStoryTH:'KULT PDRN Instant Repair Shot คือเซรั่มแอมพูลขนาดหนึ่งโดสที่อัดแน่นด้วยสารออกฤทธิ์ 12 ชนิด ขับเคลื่อนด้วย BiomePDRN ของ COSMAX มุ่งเป้าจุดด่างดำ ริ้วรอย ความขาดน้ำ และชั้นเกราะผิว ในการใช้เพียงครั้งเดียว',
+    mktBenefit1:'✨ Brightening — 5% Niacinamide + 3% Tranexamic Acid + 5% Azeloglicina (COSMAX) target hyperpigmentation and uneven tone',
+    mktBenefit2:'🧬 Cellular renewal — 1% BiomePDRN (COSMAX) for skin DNA repair and microbiome balance',
+    mktBenefit3:'💧 Deep hydration — 3% Trehalose + 3% Hyalosamine + 0.1% Low MW HA for multi-depth moisture',
+    mktBenefit4:'🌿 Anti-wrinkle — 0.04% Adenosine (Thai FDA approved anti-wrinkle claim)',
+    mktBenefit5:'🌱 Soothing & barrier repair — Centella Asiatica Complex + Dipotassium Glycyrrhizinate',
+    mktBenefit6:'⚗ Single-use precision dose — maximum potency; no repeat-open preservative compromise',
+    mktUSP:'12 actives in one ampoule. COSMAX BiomePDRN + Azeloglicina (exclusive) deliver clinically meaningful concentrations for brightening, firming, and hydration — in a single-dose shot. Alcohol-free, SLS-free, silicone-free.',
+    mktTech:'BiomePDRN: COSMAX next-gen complex combining PDRN with microbiome science for barrier renewal and DNA-level skin repair. Azeloglicina: COSMAX-exclusive brightening ingredient clinically developed for melanin reduction.',
+    mktSkinType:'All skin types — especially skin with dullness, dark spots, fine lines, or dehydration concerns',
+    mktSkinConcerns:'Hyperpigmentation, Dark spots, Uneven skin tone, Fine lines & wrinkles, Dehydration, Dull skin, Weakened barrier',
+    mktPositioning:'Premium / Prestige — Precision clinical serum ampoule · Spa & professional use',
+    mktUsageFreq:'1–2 ampoules per week as targeted treatment. Use daily for 7-day intensive courses. Single-use only — discard after opening.',
+    mktSocialEN:'One ampoule. 12 actives. Instant results. 💉✨ KULT PDRN Instant Repair Shot fires COSMAX BiomePDRN + Azeloglicina directly into your skin — brightening, firming, and hydrating in one precision dose. #KULTSkinRitual #PDRNShot #AmpouleSerum',
+    mktSocialTH:'หนึ่งแอมพูล สารออกฤทธิ์ 12 ชนิด ผลลัพธ์ทันที 💉✨ KULT PDRN Instant Repair Shot ส่งพลัง BiomePDRN + Azeloglicina ตรงสู่ผิวคุณ กระจ่างใส กระชับ ชุ่มชื้น #KULTSkinRitual #PDRNShot',
+    mktEcomEN:'Single-use PDRN serum ampoule. 12 actives: 5% Niacinamide, BiomePDRN, 3% Tranexamic Acid, 0.04% Adenosine. Alcohol-free, SLS-free, silicone-free.',
+    mktNotes:'Adenosine 0.04% — may be claimed "ลดริ้วรอย" (anti-wrinkle) per Thai FDA. Tranexamic Acid — use "ผิวดูกระจ่างใส" (brightening) NOT "ทำให้ขาว" (whitening). Azeloglicina — include in INCI only; no standalone Thai FDA registration. No therapeutic claims.',
+    // Manufacturer
+    mfrName:'COSMAX (THAILAND) CO., LTD.',
+    mfrAddress:'28/6-7 Moo 7, Bangpla, Bangphli, Samutprakarn 10540, Thailand',
+    mfrNameTH:'บริษัท ซีโอเอสเอ็มเอเอ็กซ์ (ไทยแลนด์) จำกัด',
+    mfrAddressTH:'เลขที่ 28/6-7 หมู่ 7 ตำบล บางปลา อำเภอ บางพลี จังหวัด สมุทรปราการ 10540',
+    distName:'NUB NGERN MAI TUN COMPANY LIMITED',
+    distAddress:'266/15 Siam Square 3, Rama 1 Road, Pathumwan, Pathumwan, Bangkok 10330',
+    contact:'ap.nnmt@nng.co.th · 0866369223',
+    thaiClaims:'สรรพคุณ: บำรุงผิวหน้า ให้ความชุ่มชื้น ลดเลือนริ้วรอย ช่วยให้ผิวดูกระจ่างใส ปรับสีผิวให้สม่ำเสมอ ฟื้นฟูผิวให้ดูอ่อนเยาว์',
+    thaiHowToUse:'วิธีใช้:\n1. เตรียมผิว: เริ่มต้นด้วยการทำความสะอาดผิวหน้าและซับผิวให้แห้งอย่างเบามือ\n2. เปิดหลอด: ถือหลอดแอมพูลในแนวตั้ง จากนั้นหักหรือหมุนเปิดฝาหลอดอย่างระมัดระวัง\n3. ลูบไล้: บีบเนื้อผลิตภัณฑ์ลงบนฝ่ามือ ลูบไล้และนวดวนอย่างเบามือให้ทั่วใบหน้า จนเนื้อแอมพูลซึมซาบเข้าสู่ผิวอย่างสมบูรณ์\n4. บำรุงเพิ่มเติม: นำเนื้อผลิตภัณฑ์ส่วนที่หลงเหลือ ลูบไล้บำรุงบริเวณลำคอเพื่อการดูแลที่ครอบคลุม\nข้อแนะนำ: ผลิตภัณฑ์นี้ถูกคิดค้นและออกแบบมาเพื่อการใช้งานเพียงครั้งเดียว (Single-use) เพื่อประสิทธิภาพและการบำรุงสูงสุด กรุณาใช้ผลิตภัณฑ์ให้หมดในครั้งเดียวหลังจากเปิดหลอด',
+    thaiWarnings:'คำเตือน: เพื่อการใช้ภายนอกเท่านั้น หลีกเลี่ยงการสัมผัสบริเวณดวงตา หากเกิดการระคายเคืองหรือผื่นแดง ควรหยุดใช้และปรึกษาแพทย์ เก็บให้พ้นมือเด็ก ผลิตภัณฑ์นี้สำหรับใช้ครั้งเดียวเท่านั้น ห้ามนำกลับมาใช้ซ้ำ',
+    thaiStorage:'เก็บในที่แห้งและเย็น ไม่ถูกแสงแดดโดยตรง',
+    howToUse:'Directions for Use:\n1. Prepare: Begin with a freshly cleansed and gently dried face.\n2. Open: Hold the ampoule upright and carefully snap the cap open.\n3. Apply: Dispense the serum into the palm of your hand. Gently massage the formula over your face until it is fully absorbed into the skin.\n4. Extend: Sweep any remaining serum onto your neck area for comprehensive care.\n\nImportant Note: This product is exclusively designed for a single application. To ensure maximum efficacy and freshness, please use the entire contents immediately upon opening.',
+    warnings:'For external use only. For single use only — do not reuse after opening. Avoid contact with eyes. If contact occurs, rinse thoroughly with water. Discontinue use if irritation or rash develops and consult a physician. Keep out of reach of children.',
+    storage:'Store in a cool, dry place away from direct sunlight.',
+    targetMarket:'Thailand',
+  };
+  Object.entries(d).forEach(([id,v])=>{const e=g(id);if(e&&(e.tagName==='INPUT'||e.tagName==='SELECT'||e.tagName==='TEXTAREA'))e.value=v});
+  ['claimCrueltyFree','claimParabenFree','claimSiliconeFree','claimAlcoholFree','claimMineralOilFree','claimSulfateFree','claimColorantFree'].forEach(id=>{const cb=g(id);if(cb){cb.checked=true;const chip=g('chip-'+id);if(chip)chip.classList.add('checked')}});
+  g('pv-footer-date').textContent='Issued: '+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+  sync();
+});
+</script>
+</body>
+</html>
