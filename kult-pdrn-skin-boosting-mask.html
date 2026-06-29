@@ -645,8 +645,9 @@ function flashSync(){const e=g('sync-flash');if(!e)return;e.classList.remove('fl
 async function saveVersion(){
   const name=prompt('Version name (e.g. "v1 draft", "approved"):');
   if(!name)return;
-  const{error}=await sb.from('factsheet_versions').insert({product:PRODUCT_ID,version_name:name,data:getState(),saved_by:userName||'Anonymous'});
-  if(error){showToast('❌ Save failed: '+error.message);return;}
+  showToast('💾 Saving…');
+  const{data,error}=await sb.from('factsheet_versions').insert({product:PRODUCT_ID,version_name:name,data:getState(),saved_by:userName||'Anonymous'}).select();
+  if(error){console.error('Save error:',error);showToast('❌ '+error.message);return;}
   showToast('💾 Saved "'+name+'"');
 }
 
@@ -655,16 +656,23 @@ async function showVersions(){
   if(!modal||!list)return;
   list.innerHTML='<div class="version-empty">Loading…</div>';
   modal.classList.add('open');
-  const{data,error}=await sb.from('factsheet_versions').select('*').eq('product',PRODUCT_ID).order('saved_at',{ascending:false}).limit(30);
-  if(error||!data||!data.length){list.innerHTML='<div class="version-empty">No saved versions yet.</div>';return;}
-  list.innerHTML=data.map(v=>`<div class="version-item" onclick="loadVersion('${v.id}')"><div class="version-name">${v.version_name}</div><div class="version-meta">by ${v.saved_by} · ${new Date(v.saved_at).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div></div>`).join('');
+  const{data,error}=await sb.from('factsheet_versions').select('id,product,version_name,saved_by,saved_at').eq('product',PRODUCT_ID).order('saved_at',{ascending:false}).limit(30);
+  console.log('Versions query →',{data,error,product:PRODUCT_ID});
+  if(error){
+    list.innerHTML=`<div class="version-empty" style="color:#dc2626">Error: ${error.message}<br><small>Check Supabase table & RLS policy</small></div>`;
+    return;
+  }
+  if(!data||!data.length){list.innerHTML='<div class="version-empty">No saved versions yet.<br><small>Click Save to create one.</small></div>';return;}
+  list.innerHTML=data.map(v=>`<div class="version-item" onclick="loadVersion('${v.id}')">
+    <div class="version-name">${v.version_name}</div>
+    <div class="version-meta">by ${v.saved_by||'Anonymous'} · ${new Date(v.saved_at).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+  </div>`).join('');
 }
 
 async function loadVersion(id){
   const{data,error}=await sb.from('factsheet_versions').select('*').eq('id',id).single();
-  if(error||!data){showToast('❌ Could not load version');return;}
+  if(error||!data){console.error('Load error:',error);showToast('❌ Could not load: '+(error?.message||'unknown error'));return;}
   applyState(data.data);
-  // broadcast full state to others
   if(sbChannel)Object.entries(data.data).forEach(([fid,val])=>sbChannel.send({type:'broadcast',event:'field',payload:{id:fid,value:val}}));
   closeVersionModal();
   showToast('📂 Loaded "'+data.version_name+'"');
