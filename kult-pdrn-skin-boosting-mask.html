@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KULT — PDRN Skin Boosting Mask · Factsheet</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{--brand:#1a3a5c;--accent:#0d5c8f;--accent-light:#e8f4fd;--thai:#a51c30;--thai-light:#fdecea;--danger:#dc2626;--text:#111827;--text-muted:#6b7280;--border:#e5e7eb;--bg:#f5f7fa;--white:#fff;--radius:10px;--radius-sm:6px;--shadow:0 1px 3px rgba(0,0,0,.07)}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -95,6 +96,42 @@
   .a4claim{font-size:7px;background:#e8f4fd;color:#0d5c8f;padding:2px 6px;border-radius:20px;font-weight:600}
   .a4foot{background:#f0f2f5;border-top:.5px solid #dde0e6;padding:5px 13px;display:flex;justify-content:space-between;align-items:center}
   .a4fl,.a4fr{font-size:6.5px;color:#aaa}
+  /* Supabase collab UI */
+  .btn-save{background:#059669;color:white}.btn-save:hover{background:#047857}
+  .btn-load{background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2)}.btn-load:hover{background:rgba(255,255,255,.22)}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#111827;color:white;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transition:all .3s;z-index:9999;white-space:nowrap;pointer-events:none}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  /* Presence */
+  .presence-wrap{display:flex;align-items:center;gap:10px;padding:0 12px;border-right:1px solid rgba(255,255,255,.15);margin-right:4px}
+  .presence-avatars{display:flex;gap:-4px}
+  .p-avatar{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin-left:-6px;flex-shrink:0;cursor:default}
+  .p-avatar:first-child{margin-left:0}
+  .conn-pill{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.2);border-radius:20px;padding:3px 9px;font-size:11px;color:rgba(255,255,255,.7)}
+  .conn-dot{width:6px;height:6px;border-radius:50%;background:#6b7280;transition:background .3s}
+  .conn-dot.live{background:#4ade80;animation:livepulse 2s infinite}
+  @keyframes livepulse{0%,100%{opacity:1}50%{opacity:.5}}
+  /* Modals */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;display:none;align-items:center;justify-content:center}
+  .modal-overlay.open{display:flex}
+  .modal-box{background:white;border-radius:14px;padding:28px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .modal-title{font-size:17px;font-weight:700;margin-bottom:6px}
+  .modal-sub{font-size:13px;color:#6b7280;margin-bottom:20px}
+  .modal-input{width:100%;padding:10px 13px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:14px;outline:none}
+  .modal-input:focus{border-color:#059669;box-shadow:0 0 0 3px rgba(5,150,105,.1)}
+  .modal-btn{width:100%;padding:11px;background:#059669;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
+  .modal-btn:hover{background:#047857}
+  /* Version list */
+  .version-list-wrap{max-height:340px;overflow-y:auto;margin:0 -28px;padding:0 28px}
+  .version-item{padding:12px 14px;border:1px solid #e5e7eb;border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .15s}
+  .version-item:hover{border-color:#059669;background:#f0fdf4}
+  .version-name{font-size:14px;font-weight:600;color:#111827}
+  .version-meta{font-size:11.5px;color:#9ca3af;margin-top:2px}
+  .version-empty{text-align:center;color:#9ca3af;font-size:13px;padding:24px 0}
+  .modal-close{float:right;background:none;border:none;font-size:20px;cursor:pointer;color:#9ca3af;line-height:1;padding:0;margin-top:-4px}
+  /* Sync flash */
+  @keyframes syncflash{0%{opacity:1}100%{opacity:0}}
+  .sync-flash{position:fixed;top:64px;right:16px;background:#059669;color:white;font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;opacity:0;pointer-events:none;z-index:200}
+  .sync-flash.flash{animation:syncflash .6s ease-out forwards}
   @media print{@page{size:A4;margin:0}body{background:white}.topbar,.form-side,.preview-label{display:none!important}.layout{display:block}.preview-side{position:static;height:auto;background:white;border:none;padding:0}.a4{max-width:100%;width:210mm;min-height:297mm;box-shadow:none;font-size:9.5px}.a4h{padding:16px 20px}.a4hp{font-size:15px}.a4body{padding:12px 20px}}
 </style>
 </head>
@@ -109,7 +146,17 @@
     </div>
     <span class="topbar-badge">🇹🇭 Thai FDA</span>
   </div>
+  <div class="presence-wrap">
+    <div class="presence-avatars" id="presence-avatars"></div>
+    <div class="conn-pill"><span class="conn-dot" id="conn-dot"></span><span id="conn-label">Connecting…</span></div>
+  </div>
   <div class="topbar-actions">
+    <button class="btn btn-save" onclick="saveVersion()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save
+    </button>
+    <button class="btn btn-load" onclick="showVersions()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Versions
+    </button>
     <button class="btn btn-ghost" onclick="clearForm()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Clear
     </button>
@@ -118,6 +165,30 @@
     </button>
   </div>
 </header>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+<div class="sync-flash" id="sync-flash">↕ synced</div>
+
+<!-- Name prompt modal -->
+<div class="modal-overlay" id="name-modal">
+  <div class="modal-box">
+    <div class="modal-title">👋 What's your name?</div>
+    <div class="modal-sub">So your teammates know who's editing.</div>
+    <input class="modal-input" id="name-input" placeholder="e.g. Pamika" maxlength="30" onkeydown="if(event.key==='Enter')submitName()">
+    <button class="modal-btn" onclick="submitName()">Start collaborating</button>
+  </div>
+</div>
+
+<!-- Version history modal -->
+<div class="modal-overlay" id="version-modal" onclick="if(event.target===this)closeVersionModal()">
+  <div class="modal-box" style="max-width:480px">
+    <button class="modal-close" onclick="closeVersionModal()">×</button>
+    <div class="modal-title">📂 Saved versions</div>
+    <div class="modal-sub">Click a version to restore it for everyone.</div>
+    <div class="version-list-wrap"><div id="version-list" class="version-empty">Loading…</div></div>
+  </div>
+</div>
 
 <div class="layout">
 <div class="form-side">
@@ -514,6 +585,100 @@ function exportPDF(){
 
 function clearForm(){if(!confirm('Clear all fields? Pre-filled data will be removed.'))return;document.querySelectorAll('input:not([type=checkbox]),select,textarea').forEach(e=>e.value='');document.querySelectorAll('input[type=checkbox]').forEach(e=>{e.checked=false;const c=g('chip-'+e.id);if(c)c.classList.remove('checked')});sync()}
 
+// ── Supabase Config ──────────────────────────────────────
+const SUPABASE_URL='https://vdhyuukzbftlslirvklu.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkaHl1dWt6YmZ0bHNsaXJ2a2x1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3MTYzNjUsImV4cCI6MjA5ODI5MjM2NX0.N1evl7EVOyzJGymXYIC-_e9zxBDCjEZ-5mpMBpyNiog';
+const PRODUCT_ID='kult-mask';
+const PRODUCT_LABEL='KULT PDRN Skin Boosting Mask';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+let userName=localStorage.getItem('kult-username')||'';
+let userColor=localStorage.getItem('kult-usercolor')||rndColor();
+let isRemote=false;let sbChannel=null;let bTimer=null;
+
+function rndColor(){const c=['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6'];const v=c[Math.floor(Math.random()*c.length)];localStorage.setItem('kult-usercolor',v);return v;}
+
+function getState(){const s={};document.querySelectorAll('input,select,textarea').forEach(el=>{if(el.id)s[el.id]=el.type==='checkbox'?el.checked:el.value});return s;}
+
+function applyState(data){
+  isRemote=true;
+  Object.entries(data).forEach(([id,v])=>{const el=g(id);if(!el)return;if(el.type==='checkbox'){el.checked=v;const c=g('chip-'+id);if(c)c.classList.toggle('checked',v);}else{el.value=v;}});
+  isRemote=false;sync();
+}
+
+function initRealtime(){
+  if(!userName){showNamePrompt();return;}
+  sbChannel=sb.channel(PRODUCT_ID+'-collab',{config:{broadcast:{self:false},presence:{key:userName}}});
+  sbChannel
+    .on('broadcast',{event:'field'},({payload})=>{
+      isRemote=true;
+      const el=g(payload.id);
+      if(el){if(el.type==='checkbox'){el.checked=payload.value;const c=g('chip-'+payload.id);if(c)c.classList.toggle('checked',el.checked);}else{el.value=payload.value;}sync();}
+      isRemote=false;flashSync();
+    })
+    .on('presence',{event:'sync'},()=>renderPresence(sbChannel.presenceState()))
+    .on('presence',{event:'join'},({key})=>showToast('👋 '+key+' joined'))
+    .on('presence',{event:'leave'},({key})=>showToast('👋 '+key+' left'))
+    .subscribe(async(status)=>{
+      if(status==='SUBSCRIBED'){setConn(true);await sbChannel.track({name:userName,color:userColor});}
+      else if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){setConn(false);}
+    });
+  // Broadcast field changes
+  document.querySelectorAll('input,select,textarea').forEach(el=>{
+    const send=()=>{if(isRemote||!el.id||!sbChannel)return;clearTimeout(bTimer);bTimer=setTimeout(()=>{sbChannel.send({type:'broadcast',event:'field',payload:{id:el.id,value:el.type==='checkbox'?el.checked:el.value}});},180);};
+    el.addEventListener('input',send);el.addEventListener('change',send);
+  });
+  // Auto-save to localStorage every 15s
+  setInterval(()=>localStorage.setItem('kult-as-'+PRODUCT_ID,JSON.stringify({at:new Date().toISOString(),data:getState()})),15000);
+}
+
+function renderPresence(state){
+  const el=g('presence-avatars');if(!el)return;
+  const users=Object.values(state).flat();
+  el.innerHTML=users.map(u=>`<div class="p-avatar" title="${u.name}" style="background:${u.color||'#6b7280'}">${(u.name||'?').charAt(0).toUpperCase()}</div>`).join('');
+}
+
+function setConn(live){const d=g('conn-dot'),l=g('conn-label');if(!d||!l)return;d.className='conn-dot'+(live?' live':'');l.textContent=live?'Live':'Offline';}
+function flashSync(){const e=g('sync-flash');if(!e)return;e.classList.remove('flash');void e.offsetWidth;e.classList.add('flash');}
+
+// ── Versions ─────────────────────────────────────────────
+async function saveVersion(){
+  const name=prompt('Version name (e.g. "v1 draft", "approved"):');
+  if(!name)return;
+  const{error}=await sb.from('factsheet_versions').insert({product:PRODUCT_ID,version_name:name,data:getState(),saved_by:userName||'Anonymous'});
+  if(error){showToast('❌ Save failed: '+error.message);return;}
+  showToast('💾 Saved "'+name+'"');
+}
+
+async function showVersions(){
+  const modal=g('version-modal'),list=g('version-list');
+  if(!modal||!list)return;
+  list.innerHTML='<div class="version-empty">Loading…</div>';
+  modal.classList.add('open');
+  const{data,error}=await sb.from('factsheet_versions').select('*').eq('product',PRODUCT_ID).order('saved_at',{ascending:false}).limit(30);
+  if(error||!data||!data.length){list.innerHTML='<div class="version-empty">No saved versions yet.</div>';return;}
+  list.innerHTML=data.map(v=>`<div class="version-item" onclick="loadVersion('${v.id}')"><div class="version-name">${v.version_name}</div><div class="version-meta">by ${v.saved_by} · ${new Date(v.saved_at).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div></div>`).join('');
+}
+
+async function loadVersion(id){
+  const{data,error}=await sb.from('factsheet_versions').select('*').eq('id',id).single();
+  if(error||!data){showToast('❌ Could not load version');return;}
+  applyState(data.data);
+  // broadcast full state to others
+  if(sbChannel)Object.entries(data.data).forEach(([fid,val])=>sbChannel.send({type:'broadcast',event:'field',payload:{id:fid,value:val}}));
+  closeVersionModal();
+  showToast('📂 Loaded "'+data.version_name+'"');
+}
+
+function closeVersionModal(){const m=g('version-modal');if(m)m.classList.remove('open');}
+
+// ── Name prompt ───────────────────────────────────────────
+function showNamePrompt(){const m=g('name-modal');if(m)m.classList.add('open');setTimeout(()=>{const i=g('name-input');if(i)i.focus();},100);}
+function submitName(){const i=g('name-input');const n=i?i.value.trim():'';if(!n)return;userName=n;localStorage.setItem('kult-username',n);const m=g('name-modal');if(m)m.classList.remove('open');initRealtime();}
+
+// ── Toast ─────────────────────────────────────────────────
+function showToast(msg){const t=g('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
 // ── Pre-fill KULT data ────────────────────────────────────
 window.addEventListener('DOMContentLoaded',()=>{
   const d={
@@ -572,6 +737,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   ['claimCrueltyFree','claimParabenFree','claimSiliconeFree','claimFragranceFree','claimMineralOilFree','claimSulfateFree','claimPEGFree','claimFormalFree','claimEDTAFree','claimColorantFree'].forEach(id=>{const cb=g(id);if(cb){cb.checked=true;const chip=g('chip-'+id);if(chip)chip.classList.add('checked')}});
   g('pv-footer-date').textContent='Issued: '+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
   sync();
+  // Start Supabase (check localStorage autosave first)
+  const as=localStorage.getItem('kult-as-'+PRODUCT_ID);
+  if(as){try{const{data}=JSON.parse(as);applyState(data);}catch(e){}}
+  initRealtime();
 });
 </script>
 </body>
